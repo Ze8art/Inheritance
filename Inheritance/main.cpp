@@ -2,44 +2,45 @@
 
 using namespace std;
 
-class base {
-private:
-	int _i;
-	int _j;
+class Figure {
 protected:
-	int _a;
+	double _x;
+	double _y;
 public:
-	base() {
-		_i = _j = 0;
-		cout << "base()" << endl;
-	};
-	base(int i, int j) {
-		_i = i, _j = j; cout << "base(int, int)" << endl;
-	}
-	~base() { cout << "~base()" << endl; }
-	void set(int i, int j) { _i = i; _j = j; }
-	int getI() { return _i; };
-	int getJ() { return _j; };
-	void show() { cout << "i = " << _i << ", j = " << _j << endl; }
+	void set(double x, double y) { _x = x; _y = y; }
+	virtual void show_area() = 0;
+	//void show_area() { cout << "Unable to calc square for figure" << endl; }
 
 };
 
-class derived : public base {		//наследование классов
-private:
-	int _k;
-
+class Rectangle : public Figure{
 public:
-	derived() { cout << "derived()" << endl; _k = 0; }
-	derived(int k) : base(1, 2) { cout << "derived(int)" << endl; _k = k; }
-	~derived() { cout << "~derived()" << endl; }
-	void setK(int k) { _k = k; }
-	int getK() { return _k; }
-	void showK() { cout << "k = " << _k << endl; }
+	void show_area() {
+		cout << "Rectangle with sides: ";
+		cout << "a = " << _x << ", b = " << _y << endl;
+		cout << "S = " << _x * _y << endl;
+
+	}
+};
+
+class RectTriangle : public Figure {
+public:
+	void show_area() {
+		cout << "RectTriangle with sides: ";
+		cout << "a = " << _x << ", b = " << _y << endl;
+		cout << "S = " << (_x * _y) / 2 << endl;
+
+	}
 };
 
 int main() {
-	derived ob(3);
-	//ob.set(1, 2);
-	ob.show();
-	ob.showK();
+	Figure* f;
+	Rectangle r;
+	RectTriangle rt;
+	f = &r;
+	f->set(3, 4);
+	f->show_area();
+	f = &rt;
+	f->set(6, 8);
+	f->show_area();
 }
